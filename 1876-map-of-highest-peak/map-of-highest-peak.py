@@ -4,7 +4,7 @@ class Solution:
         m = len(isWater[0])
 
         visited = set()
-        cache = []
+        cache = deque()
         for i in range(n):
             for j in range(m):
                 if isWater[i][j] == 1:
@@ -13,8 +13,7 @@ class Solution:
                     visited.add((i,j))
         
         while cache:
-            x, y, c = cache.pop(0)
-            # print(x, y, c)
+            x, y, c = cache.popleft()
             for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
                 if 0 <= x+dx < n and 0 <= y+dy < m and (x+dx,y+dy) not in visited:
                     visited.add((x+dx,y+dy))
