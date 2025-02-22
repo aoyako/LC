@@ -6,6 +6,7 @@
 #         self.right = right
 class Solution:
     def recoverFromPreorder(self, traversal: str) -> Optional[TreeNode]:
+        # Iterate over string to find node value and depth (level)
         def tokenizer(s):
             arr = s.split('-')
             offset = -1
@@ -17,20 +18,23 @@ class Solution:
                     offset = 0
         
         tokens = list(tokenizer(traversal))
-        print(tokens)
 
-        def rec(level):
+        def reconstruct(level):
             if len(tokens) == 0:
                 return None
+            # Peek first token
             value, lvl = tokens[0]
+            # It is on the same level, so construct a new node
             if lvl == level:
+                # Token is used here
                 tokens.pop(0)
                 node = TreeNode(value)
-                node.left = rec(level+1)
-                node.right = rec(level+1)
+                # Don't care if reconstruct fails for children, it will return None (no children)
+                node.left = reconstruct(level+1)
+                node.right = reconstruct(level+1)
                 return node
 
             return None
 
-        return rec(0)
+        return reconstruct(0)
         
